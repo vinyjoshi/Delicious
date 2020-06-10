@@ -1,0 +1,29 @@
+#header{
+    height: 50px;
+    background: #ffa012;
+    color: #fff;
+}
+#branding h1 #head{
+    color: #fff;
+    font-family: 'Pacifico', cursive;
+}
+a:link,
+a:visited{
+    color: #102B4e;
+}
+div.breadcrumbs {
+    background: rgba(26, 24, 22, 0.85);
+    color: #fff;
+}
+div.breadcrumbs a{
+    color: #fff;
+}
+.module h2, .module caption, .inline-group h2{
+    background: rgba(26, 24, 22, 0.85);
+}
+.button.default, input[type=submit].default, .submit-row input.default{
+    background: rgba(26, 24, 22, 0.85);
+}
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #ffa012;
+}

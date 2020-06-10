@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+  
+{% load static %}
+
+{% block content %}
+{% include 'partials/_hero.html' %}
+
+<!-- ======= Menu Section ======= -->
+<section id="menu" class="menu">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Check our tasty <span>Menu</span></h2>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <ul id="menu-flters">
+          <li data-filter="*" class="filter-active">Show All</li>
+          <li data-filter=".filter-starters">Starters</li>
+          <li data-filter=".filter-salads">Salads</li>
+          <li data-filter=".filter-specialty">Specialty</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row menu-container">
+      {% for item in menuItem %}
+      <div class="col-lg-6 menu-item filter-{{item.Tag}}">
+        <div class="menu-content">
+          <a href="#">{{item.name}}</a><span>${{item.price}}</span>
+        </div>
+        <div class="menu-ingredients">
+          {{item.Ingredients}}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+<!-- End Menu Section -->
+
+<!-- ======= Specials Section ======= -->
+<section id="specials" class="specials">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Check our <span>Specials</span></h2>
+      <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae autem.</p>
+      <p>Select TO Check Out Our Specials</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-lg-3">
+        <ul class="nav nav-tabs flex-column">
+          {% for dish in specialItem %}
+          <li class="nav-item">
+            <a  data-toggle="tab" href="#tab-{{dish.id}}"   
+              {% if '#menu' in request.path %}
+               class="nav-link show"
+              {% else %}
+               class="nav-link"
+              {% endif %}           
+              >{{dish.name}}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-lg-9 mt-4 mt-lg-0">
+        <div class="tab-content">
+          {% for desp in specialItem %}
+          <div id="tab-{{desp.id}}" 
+          {% if '#menu' == request.path %} 
+            class="tab-pane active show"
+          {% elif '#tab{{desp.id}}' in request.path %}
+            class="tab-pane active show"
+          {% else %}
+            class="tab-pane"
+          {% endif %}>
+            <div class="row">
+              <div class="col-lg-8 details order-2 order-lg-1">
+                <h3>{{desp.specialty}}</h3>
+                <p class="font-italic">{{desp.description}}</p>
+              </div>
+              <div class="col-lg-4 text-center order-1 order-lg-2">
+                <img src="{{desp.photo_dish.url}}" alt="" class="img-fluid">
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- End Specials Section -->
+
+<!-- ======= Book A Table Section ======= -->
+<section id="book-a-table" class="book-a-table">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Book a <span>Table</span></h2>
+      <p>Have some plans for tonight or sometime in future. Dont worry we got you covered. Book your table in advance for anytime of the year.</p>
+    </div>
+
+    <form action="{% url 'book' %}" method="POST">
+      {% csrf_token %}
+      {% if user.is_authenticated %}
+        <input type="hidden" name="user_id" value="{{user.id}}">
+      {% else %}  
+        <input type="hidden" name="user_id" value="0">
+      {% endif %}
+          <div class="form-row">
+        <div class="col-lg-4 col-md-6 form-group">
+          <input type="text" name="name" class="form-control" id="name" {% if user.is_authenticated %} value="{{user.first_name}} {{user.last_name}}" {% else %} placeholder="Your Name" {% endif %}>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <input type="email" class="form-control" name="email" id="email" value="{{user.email}}" placeholder="Your Email">
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <input type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone">
+        </div>
+        <div class="col-lg-4 col-md-6 form-group" style="display: flex;">
+          <select name="date" class="form-control">
+            <option selected="true" disabled="disabled">Date</option>
+            {% for key,value in Date.items %}
+              <option name={{value}} value="{{ key }}">{{ value }}</option>
+            {% endfor %}
+          </select>
+          <select name="month" class="form-control">
+            <option selected="true" disabled="disabled">Month</option>
+            {% for key,value in Month.items %}
+              <option name={{value}} value="{{ key }}">{{ value }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group" style="display: flex;">
+          <select name="Hour" class="form-control">
+            <option selected="true" disabled="disabled">Hour</option>
+            {% for key,value in Hour.items %}
+              <option name={{value}} value="{{ key }}">{{ value }}</option>
+            {% endfor %}
+          </select>
+          <select name="Minutes" class="form-control">
+            <option selected="true" disabled="disabled">Minutes</option>
+            {% for key,value in Minutes.items %}
+              <option name={{value}} value="{{ key }}">{{ value }}</option>
+            {% endfor %}
+          </select>  
+          <select name="when" class="form-control">
+            {% for key,value in when.items %}
+              <option name={{value}} value="{{ key }}">{{ value }}</option>
+            {% endfor %}
+          </select>  
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <input type="number" class="form-control" name="people" id="people" placeholder="# of people">
+        </div>
+      </div>
+      <input class="text-center btn btn-block btn-warning" type="submit" value="submit">
+    </form>
+
+  </div>
+</section>
+<!-- End Book A Table Section -->
+
+<!-- ======= Chefs Section ======= -->
+<section id="chefs" class="chefs">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Our Proffesional <span>Chefs</span></h2>
+      <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae autem.</p>
+    </div>
+
+    <div class="row">
+      {% for item in chefs %}
+      <div class="col-lg-4 col-md-6">
+        <div class="member">
+          <div class="pic"><img src="{{item.photo_chef.url}}" class="img-fluid" alt=""></div>
+          <div class="member-info">
+            <h4>{{item.name}}</h4>
+            <span>{{item.designation}}</span>
+            <div class="social">
+              <a href=""><i class="icofont-twitter"></i></a>
+              <a href=""><i class="icofont-facebook"></i></a>
+              <a href=""><i class="icofont-instagram"></i></a>
+              <a href=""><i class="icofont-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor%}
+    </div>
+
+  </div>
+</section>
+<!-- End Chefs Section -->
+
+
+{% endblock %}
+

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} | Dashboard {% endblock %}
+
+{% block content %}
+{% include 'partials/_hero.html' %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item active"> Dashboard</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  {% include 'partials/_alerts.html' %}
+  <section id="dashboard" class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Welcome {{user.first_name}}</h2>
+          <p>Here are the all the bookings you have done until now.</p>
+          <table class="table">
+            {% if bookings %}
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Bookings Dates</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in bookings %}
+              <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.date}}</td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <tr>No Bookings yet!</tr>
+            {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
