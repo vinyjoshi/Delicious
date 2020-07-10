@@ -15,7 +15,7 @@
           <li><a href="#events">Events</a></li>
           <li><a href="#gallery">Gallery</a></li>
           <li><a href="#contact">Contact</a></li>
-          <li><a href="{% url 'menu' %}#menu">Menu</a></li>
+          <li><a href="{% url 'menu' %}#specials">Specials</a></li>
           {% elif '/menu/' == request.path %}
           <li class="active"><a href="{% url 'home' %}">Home</a></li>
           <li><a {% if '/menu/' in request.path %} href="#menu"

@@ -5,6 +5,61 @@
 {% block content %}
 {% include 'partials/_hero.html' %}
 
+<!-- ======= Specials Section ======= -->
+<section id="specials" class="specials">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Check our <span>Specials</span></h2>
+      <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae autem.</p>
+      <p>Select TO Check Out Our Specials</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-lg-3">
+        <ul class="nav nav-tabs flex-column">
+          {% for dish in specialItem %}
+          <li class="nav-item">
+            <a  data-toggle="tab" href="#tab-{{dish.id}}"
+              {% if "/menu/#tab-{{dish.id}}" in request.path %}
+                class="nav-link show active"
+              {% else %}
+                class="nav-link"
+              {% endif %}           
+              >{{dish.name}}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-lg-9 mt-4 mt-lg-0">
+        <div class="tab-content">
+          {% for desp in specialItem %}
+          <div id="tab-{{desp.id}}"
+          {% if '#menu' == request.path %}
+            class="tab-pane active show"
+          {% else %}
+            class="tab-pane"
+          {% endif %}>
+            <div class="row">
+              <div class="col-lg-8 details order-2 order-lg-1">
+                <h3>{{desp.specialty}}</h3>
+                <p class="font-italic">{{desp.description}}</p>
+              </div>
+              <div class="col-lg-4 text-center order-1 order-lg-2">
+                <img src="{{desp.photo_dish.url}}" alt="" class="img-fluid">
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- End Specials Section -->
+
+
 <!-- ======= Menu Section ======= -->
 <section id="menu" class="menu">
   <div class="container">
@@ -40,62 +95,6 @@
   </div>
 </section>
 <!-- End Menu Section -->
-
-<!-- ======= Specials Section ======= -->
-<section id="specials" class="specials">
-  <div class="container">
-
-    <div class="section-title">
-      <h2>Check our <span>Specials</span></h2>
-      <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae autem.</p>
-      <p>Select TO Check Out Our Specials</p>
-    </div>
-    
-    <div class="row">
-      <div class="col-lg-3">
-        <ul class="nav nav-tabs flex-column">
-          {% for dish in specialItem %}
-          <li class="nav-item">
-            <a  data-toggle="tab" href="#tab-{{dish.id}}"   
-              {% if '#menu' in request.path %}
-               class="nav-link show"
-              {% else %}
-               class="nav-link"
-              {% endif %}           
-              >{{dish.name}}</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="col-lg-9 mt-4 mt-lg-0">
-        <div class="tab-content">
-          {% for desp in specialItem %}
-          <div id="tab-{{desp.id}}" 
-          {% if '#menu' == request.path %} 
-            class="tab-pane active show"
-          {% elif '#tab{{desp.id}}' in request.path %}
-            class="tab-pane active show"
-          {% else %}
-            class="tab-pane"
-          {% endif %}>
-            <div class="row">
-              <div class="col-lg-8 details order-2 order-lg-1">
-                <h3>{{desp.specialty}}</h3>
-                <p class="font-italic">{{desp.description}}</p>
-              </div>
-              <div class="col-lg-4 text-center order-1 order-lg-2">
-                <img src="{{desp.photo_dish.url}}" alt="" class="img-fluid">
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-<!-- End Specials Section -->
 
 <!-- ======= Book A Table Section ======= -->
 <section id="book-a-table" class="book-a-table">
