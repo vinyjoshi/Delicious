@@ -17,8 +17,12 @@
     
     <div class="row">
       <div class="col-lg-3">
-        <ul class="nav nav-tabs flex-column">
+        <ul class="nav nav-tabs flex-column">  
           {% for dish in specialItem %}
+          {% if dish.id == 1 %}
+          <li class="nav-item">
+            <a  data-toggle="tab" href="#tab-1" class="nav-link show active">{{dish.name}}</a>
+          {% else %}
           <li class="nav-item">
             <a  data-toggle="tab" href="#tab-{{dish.id}}"
               {% if "/menu/#tab-{{dish.id}}" in request.path %}
@@ -28,28 +32,43 @@
               {% endif %}           
               >{{dish.name}}</a>
           </li>
+          {% endif %}
           {% endfor %}
-        </ul>
+          </ul>
       </div>
       <div class="col-lg-9 mt-4 mt-lg-0">
         <div class="tab-content">
           {% for desp in specialItem %}
-          <div id="tab-{{desp.id}}"
-          {% if '#menu' == request.path %}
-            class="tab-pane active show"
-          {% else %}
-            class="tab-pane"
-          {% endif %}>
-            <div class="row">
-              <div class="col-lg-8 details order-2 order-lg-1">
-                <h3>{{desp.specialty}}</h3>
-                <p class="font-italic">{{desp.description}}</p>
-              </div>
-              <div class="col-lg-4 text-center order-1 order-lg-2">
-                <img src="{{desp.photo_dish.url}}" alt="" class="img-fluid">
+          {% if desp.id == 1 %}
+            <div id="tab-1" class="tab-pane active show">
+              <div class="row">
+                <div class="col-lg-8 details order-2 order-lg-1">
+                  <h3>{{desp.specialty}}</h3>
+                  <p class="font-italic">{{desp.description}}</p>
+                </div>
+                <div class="col-lg-4 text-center order-1 order-lg-2">
+                  <img src="{{desp.photo_dish.url}}" alt="" class="img-fluid">
+                </div>
               </div>
             </div>
-          </div>
+          {% else %}
+            <div id="tab-{{desp.id}}"
+            {% if '#menu' == request.path %}
+              class="tab-pane active show"
+            {% else %}
+              class="tab-pane"
+            {% endif %}>
+              <div class="row">
+                <div class="col-lg-8 details order-2 order-lg-1">
+                  <h3>{{desp.specialty}}</h3>
+                  <p class="font-italic">{{desp.description}}</p>
+                </div>
+                <div class="col-lg-4 text-center order-1 order-lg-2">
+                  <img src="{{desp.photo_dish.url}}" alt="" class="img-fluid">
+                </div>
+              </div>
+            </div>
+          {% endif %}
           {% endfor %}
         </div>
       </div>
